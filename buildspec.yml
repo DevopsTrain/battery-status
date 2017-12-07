@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     commands:
-      - yum install -y zip
+      - apt-get install -y zip
   build:
     commands:
       - dotnet restore
