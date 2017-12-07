@@ -1,11 +1,16 @@
 version: 0.2
 
 phases:
+  install:
+    commands:
+      - yum install -y zip
   build:
     commands:
       - dotnet restore
       - dotnet build
       - cd bin/Debug/netcoreapp2.0/
+      - pwd
+      - which zip
       - zip -r9 $CODEBUILD_SRC_DIR/dotnet-core-app.zip .
 artifacts:
   files:
