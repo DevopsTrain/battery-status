@@ -5,8 +5,9 @@
       {
         "name": "battery-status-app",
         "parameters": {
-          "archive": "dotnet-core-app.zip",
-          "iisPath": "/"
+          "appBundle": "dotnet-core-app.zip",
+          "iisPath": "/",
+          "iisWebSite": "Default Web Site"
         }
       }
     ]
