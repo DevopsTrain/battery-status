@@ -1,0 +1,14 @@
+{
+  "manifestVersion": 1,
+  "deployments": {
+    "aspNetCoreWeb": [
+      {
+        "name": "battery-status-app",
+        "parameters": {
+          "archive": "dotnet-core-app.zip",
+          "iisPath": "/"
+        }
+      }
+    ]
+  }
+}
