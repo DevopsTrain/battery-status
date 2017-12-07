@@ -5,7 +5,10 @@ phases:
     commands:
       - dotnet restore
       - dotnet build
+      - cd bin/Debug/netcoreapp2.0/
+      - zip -r9 $CODEBUILD_SRC_DIR/dotnet-core-app.zip
 artifacts:
   files:
-    - bin/Debug/netcoreapp2.0/*
-  discard-paths:yes
+    - dotnet-core-app.zip
+    - aws-windows-deployment-manifest.json
+  discard-paths: yes
