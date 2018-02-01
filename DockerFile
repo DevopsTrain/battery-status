@@ -1,5 +1,25 @@
 FROM microsoft/aspnetcore-build:2.0 AS build-env
+
+ENV CORECLR_ENABLE_PROFILING="1" \
+CORECLR_PROFILER="{36032161-FFC0-4B61-B559-F6C5D41BAE5A}" \
+CORECLR_NEWRELIC_HOME="/usr/local/newrelic-netcore20-agent" \
+CORECLR_PROFILER_PATH="/usr/local/newrelic-netcore20-agent/libNewRelicProfiler.so" \
+NEW_RELIC_LICENSE_KEY="e5f1d0919ddb0cbf6bd76f208239b91096350ddc" \
+NEW_RELIC_APP_NAME="BatteryStatus"
+
 WORKDIR /app
+
+ARG runtimeIdentifier=debian-x64
+ARG files=./bin/Release/netcoreapp2.0/$runtimeIdentifier/publish
+COPY $files ./appcode
+
+ARG NewRelic=./newrelic
+COPY $NewRelic ./newrelic
+
+RUN dpkg -i ./newrelic/newrelic-netcore20-agent*.deb
+
+ENV ASPNETCORE_URLS http://+:80
+EXPOSE 80
 
 # Copy csproj and restore as distinct layers
 COPY *.csproj ./
