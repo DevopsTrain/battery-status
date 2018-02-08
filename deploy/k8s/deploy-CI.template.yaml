@@ -75,7 +75,7 @@ metadata:
   namespace: devopstrain
 spec:
   rules:
-  - host: batterystatus.devopstrain.spc5jcoyw7.stackpoint.io
+  - host: batterystatus.devopstrain.spc3i9uigt.stackpoint.io
     http:
       paths:
       - path:
