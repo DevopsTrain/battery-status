@@ -1,0 +1,84 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: batterystatus
+  name: batterystatus
+  namespace: devopstrain
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: batterystatus
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: batterystatus
+    spec:
+      containers:
+      - image: devopstrain/batterystatus:${BUILD_NUMBER}
+        imagePullPolicy: Always
+        name: batterystatus
+        ports:
+        - containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /api/status/readiness
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 2
+          successThreshold: 2
+          failureThreshold: 4
+        livenessProbe:
+          httpGet:
+            path: /api/status/live
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 15
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: batterystatus
+  name: batterystatus
+  namespace: devopstrain
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: batterystatus
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: batterystatus
+  namespace: devopstrain
+spec:
+  rules:
+  - host: batterystatus.devopstrain.spcoj18ldz.stackpoint.io
+    http:
+      paths:
+      - path:
+        backend:
+          serviceName: batterystatus
+          servicePort: 80
