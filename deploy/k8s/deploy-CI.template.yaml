@@ -20,7 +20,7 @@ spec:
         app: batterystatus
     spec:
       containers:
-      - image: devopstrain/batterystatus:${BUILD_NUMBER}
+      - image: devopstrain/battery-status:${BUILD_NUMBER}
         imagePullPolicy: Always
         name: batterystatus
         ports:
