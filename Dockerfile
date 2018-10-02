@@ -19,7 +19,7 @@ ENV CORECLR_ENABLE_PROFILING="1" \
 CORECLR_PROFILER="{36032161-FFC0-4B61-B559-F6C5D41BAE5A}" \
 CORECLR_NEWRELIC_HOME="/usr/local/newrelic-netcore20-agent" \
 CORECLR_PROFILER_PATH="/usr/local/newrelic-netcore20-agent/libNewRelicProfiler.so" \
-NEW_RELIC_LICENSE_KEY="e5f1d0919ddb0cbf6bd76f208239b91096350ddc" \
+NEW_RELIC_LICENSE_KEY="eu01xx3fe6fa6b6a05c5424c0561906857a035a9" \
 NEW_RELIC_APP_NAME="DevopsTrain-BatteryStatus"
 
 RUN apt-get -y update \
