@@ -1,0 +1,48 @@
+version: '1.0'
+steps:
+  BuildingDockerImage:
+    title: Building Docker Image
+    type: build
+    image_name: devopstrain/battery-status
+    working_directory: ./
+    tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
+    dockerfile: Dockerfile
+  PushingToDockerRegistry:
+    title: Pushing to Docker Registry
+    type: push
+    candidate: '${{BuildingDockerImage}}'
+    tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
+    registry: cfcr
+  RunningDeployScriptAWS:
+    title: Running Deploy Script for AWS
+    type: deploy
+    kind: kubernetes
+    cluster: DevOpsTrainAWS
+    namespace: devopstrain
+    when:
+      branch:
+        only:
+          - master
+    service: battery-status
+    candidate:
+      image: '${{BuildingDockerImage}}'
+      registry: cfcr    
+  RunningDeployScriptAzure:
+    title: Running Deploy Script for Azure
+    type: deploy
+    kind: kubernetes
+    cluster: DevOpsTrainAzure
+    namespace: devopstrain
+    when:
+      branch:
+        only:
+          - master
+    service: battery-status
+    candidate:
+      image: '${{BuildingDockerImage}}'
+      registry: cfcr
+  NewRelicDeploymentMarker:
+    image: tutum/curl
+    commands:
+      - | 
+        curl -X POST '${{NR_API_BASEURL}}applications/${{NR_APPID}}/deployments.json' -H 'X-Api-Key:${{NR_API_KEY}}' -i -H 'Content-Type: application/json' -d '{"deployment":{"revision":"${{CF_REVISION}}","description":"Revision: ${{CF_COMMIT_URL}} | Branch: ${{CF_BRANCH}}","user":"${{CF_COMMIT_AUTHOR}}"}}'
