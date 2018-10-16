@@ -11,7 +11,7 @@ steps:
     title: Pushing to Docker Registry
     type: push
     candidate: '${{BuildingDockerImage}}'
-    tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
+    tags: [ '${{CF_BRANCH_TAG_NORMALIZED}}', '${{CF_SHORT_REVISION}}', 'latest' ]
     registry: cfcr
   RunningDeployScriptAWS:
     title: Running Deploy Script for AWS
