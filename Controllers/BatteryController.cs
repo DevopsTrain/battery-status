@@ -23,7 +23,7 @@ namespace BatteryStatus.Controllers
         {
             Random rand = new Random();
             int randomPercent = rand.Next(0, 100);
-            Task.Delay(2000).Wait();
+            // Task.Delay(2000).Wait();
 
             return (byte)randomPercent;
         }
